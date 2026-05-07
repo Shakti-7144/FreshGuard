@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FreshGuard AI | Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAF8;--white:#fff;--border:#E2DFD6;--green:#2D7A4A;--green-light:#EAF3DE;--teal:#0F6E56;--amber:#BA7517;--amber-light:#FAEEDA;--red:#A32D2D;--red-light:#FCEBEB;--blue:#185FA5;--blue-light:#E6F1FB;--txt:#2C2C2A;--txt2:#5F5E5A;--txt3:#888780;--r:12px}
+*{box-sizing:border-box;margin:0;padding:0}body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  line-height:1.6;
+  overflow-x:hidden;
+  max-width:100%;
+}.hidden{display:none!important}h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}.tag-green{background:var(--green-light);color:var(--teal)}.tag-red{background:var(--red-light);color:var(--red)}.tag-amber{background:var(--amber-light);color:var(--amber)}.tag-blue{background:var(--blue-light);color:var(--blue)}.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.05)}button{font-family:'DM Sans',sans-serif;cursor:pointer}.btn{border:0;border-radius:8px;padding:11px 18px;font-weight:600}.btn-dark{background:var(--txt);color:white}.btn-light{background:white;border:1px solid var(--border);color:var(--txt)}
+#landing{min-height:100vh}.nav{position:sticky;top:0;background:rgba(250,250,248,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:18px 56px;z-index:5}.logo{display:flex;align-items:center;gap:10px;font-family:'DM Serif Display',serif;font-size:20px}.logo-icon{width:32px;height:32px;background:var(--green);border-radius:8px;color:white;display:grid;place-items:center}.nav-links{display:flex;gap:18px;align-items:center}.nav-links a{font-size:14px;color:var(--txt2);text-decoration:none}.hero{min-height:88vh;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:70px 56px}.hero h1{font-size:clamp(36px,5vw,64px);line-height:1.1;margin-bottom:18px}.hero em{color:var(--green)}.hero p{max-width:520px;color:var(--txt2);margin-bottom:28px}.hero-panel{background:white;border:1px solid var(--border);border-radius:18px;padding:24px}.hero-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.hero-stat{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}.hero-stat strong{font-family:'DM Serif Display',serif;font-size:28px;color:var(--green);display:block}
+#app{display:none;height:100vh}.layout{display:flex;height:100%}.sidebar{width:230px;background:white;border-right:1px solid var(--border);display:flex;flex-direction:column}.side-logo{padding:18px;border-bottom:1px solid var(--border)}.side-nav{padding:14px 10px;list-style:none}.side-nav a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:8px;font-size:14px;color:var(--txt2);text-decoration:none}.side-nav a.active,.side-nav a:hover{background:var(--green-light);color:var(--teal);font-weight:600}.side-bottom{margin-top:auto;padding:16px;border-top:1px solid var(--border)}.main{flex:1;display:flex;flex-direction:column;overflow:hidden}.topbar{height:60px;background:white;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:0 24px}.content{overflow:auto;padding:22px}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,1fr);margin-bottom:14px}.mini{display:flex;gap:14px;align-items:center}.mini-icon{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-size:20px}.mini-val{font-family:'DM Serif Display',serif;font-size:26px}.two-col{grid-template-columns:1fr 340px}.table-wrap{overflow:auto}.data-table{width:100%;border-collapse:collapse;font-size:13px}.data-table th,.data-table td{padding:12px;border-bottom:1px solid var(--border);text-align:left}.data-table th{font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:.6px}.bar{height:5px;background:#eee;border-radius:20px;overflow:hidden;min-width:90px}.bar span{display:block;height:100%}.bar .high{background:var(--green)}.bar .mid{background:var(--amber)}.bar .low{background:var(--red)}.suggest-btn{background:var(--green-light);border:1px solid #C0DD97;color:var(--teal);border-radius:7px;padding:6px 10px;font-size:12px}.alert-list{display:flex;flex-direction:column;gap:8px}.alert{border:1px solid;border-radius:10px;padding:12px;display:flex;gap:10px}.alert.critical{background:var(--red-light);border-color:#F7C1C1}.alert.warning{background:var(--amber-light);border-color:#FAC775}.alert.info{background:var(--blue-light);border-color:#B5D4F4}.chat{display:flex;flex-direction:column;gap:10px;max-height:360px;overflow:auto}.msg{display:flex;gap:8px}.msg.user{justify-content:flex-end}.bubble{max-width:82%;padding:10px 12px;border-radius:12px;font-size:13px;background:var(--bg);border:1px solid var(--border)}.msg.user .bubble{background:var(--green-light)}.chat-row{display:flex;gap:8px;margin-top:10px}.chat-row input{flex:1;border:1px solid var(--border);background:var(--bg);padding:10px;border-radius:8px}.send{width:40px;border:0;border-radius:8px;background:var(--green);color:white}.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:grid;place-items:center;z-index:20}.modal-card{width:min(460px,92vw);background:white;border-radius:16px;border:1px solid var(--border);padding:22px}.close{float:right;background:white;border:0;font-size:18px}.loader{color:var(--txt3);font-size:13px}.empty{padding:26px;text-align:center;color:var(--txt3);border:1px dashed var(--border);border-radius:12px}
+@media(max-width:900px){.nav{padding:16px 22px}.nav-links a:not(.btn){display:none}.hero{grid-template-columns:1fr;padding:42px 22px}.sidebar{width:62px}.side-text{display:none}.stats,.two-col{grid-template-columns:1fr}.content{padding:14px}.topbar{padding:0 14px}.table-wrap{
+  overflow-x:auto;
+  width:100%;
+}
+
+.data-table{
+  width:100%;
+  min-width:700px;
+}}
+</style>
+</head>
+<body>
+<div id="landing">
+  <nav class="nav">
+    <div class="logo"><span class="logo-icon">❄️</span>FreshGuard AI</div>
+    <div class="nav-links"><a href="#home">Home</a><button class="btn btn-dark" onclick="showApp()">Open Dashboard</button></div>
+  </nav>
+  <section class="hero" id="home">
+    <div>
+      <h1>Smart Refrigerator <em>Food Safety</em> Dashboard</h1>
+      <p>Monitor only the required parts: Firebase database food items, alert centre, and Gemini-powered AI suggestions for recipes or usage before products become stale or start smelling foul.</p>
+      <button class="btn btn-dark" onclick="showApp()">Go to Dashboard</button>
+      <button class="btn btn-light" onclick="showApp();showView('alerts')">View Alerts</button>
+    </div>
+    <div class="hero-panel">
+      <h3>System Flow</h3>
+      <p style="color:var(--txt2);margin:10px 0 0">Sensor / manual entry → Firebase foodItems → Dashboard table → Alerts → Gemini suggestions.</p>
+      <div class="hero-stat-grid">
+        <div class="hero-stat"><strong id="hero-items">0</strong><span>Items</span></div>
+        <div class="hero-stat"><strong id="hero-alerts">0</strong><span>Alerts</span></div>
+        <div class="hero-stat"><strong>AI</strong><span>Gemini</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="app">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="side-logo"><div class="logo"><span class="logo-icon">❄️</span><span class="side-text">FreshGuard</span></div></div>
+      <ul class="side-nav">
+        <li><a onclick="showView('dashboard')" id="nav-dashboard" class="active">🏠 <span class="side-text">Dashboard</span></a></li>
+        <li><a onclick="showView('alerts')" id="nav-alerts">🔔 <span class="side-text">Alerts</span></a></li>
+        <li><a onclick="showLanding()">↩ <span class="side-text">Landing Page</span></a></li>
+      </ul>
+      <div class="side-bottom">
+        <span class="tag tag-green">Firebase Live</span>
+        <button class="btn btn-dark" onclick="enableNotifications()" style="margin-top:10px;width:100%">
+        Enable Alerts
+        </button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <div><strong id="view-title">Dashboard</strong><div style="font-size:11px;color:var(--txt3)">Database-backed fridge items only</div></div>
+        <div style="display:flex;gap:10px;align-items:center"><span class="tag tag-green">● Live</span><span id="clock">--:--</span></div>
+      </div>
+      <div class="content">
+        <section id="view-dashboard">
+          <div class="grid stats">
+            <div class="card mini"><div class="mini-icon" style="background:var(--green-light)">🥗</div><div><div class="mini-val" id="stat-fresh">0</div><div>Fresh</div></div></div>
+            <div class="card mini"><div class="mini-icon" style="background:var(--amber-light)">⚠️</div><div><div class="mini-val" id="stat-soon">0</div><div>Consume Soon</div></div></div>
+            <div class="card mini"><div class="mini-icon" style="background:var(--red-light)">🚫</div><div><div class="mini-val" id="stat-spoiled">0</div><div>Spoiled</div></div></div>
+            <div class="card mini"><div class="mini-icon" style="background:var(--blue-light)">📦</div><div><div class="mini-val" id="stat-total">0</div><div>Total Items</div></div></div>
+          </div>
+          <div class="grid two-col">
+            <div class="card">
+              <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px"><h3>Firebase Food Items</h3><span class="tag tag-blue" id="table-count">0 Items</span></div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead><tr><th>Item</th><th>Status</th><th>Freshness</th><th>Expiry</th><th>Smell/Gas</th><th>AI Suggest</th></tr></thead>
+                  <tbody id="food-table"><tr><td colspan="6"><div class="loader">Loading Firebase items...</div></td></tr></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="grid" style="align-content:start">
+              <div class="card"><h3>Alert Centre</h3><div class="alert-list" id="dash-alerts" style="margin-top:12px"></div></div>
+              <div class="card"><h3>Gemini AI Assistant</h3><div style="font-size:11px;color:var(--teal);margin-bottom:10px">Recipe + usage suggestions before spoilage</div><div class="chat" id="chat"><div class="msg"><div class="bubble">Ask about any item, or click “AI Suggest” from the table.</div></div></div><div class="chat-row"><input id="chat-input" placeholder="Ask Gemini..." onkeydown="if(event.key==='Enter')sendChat()"><button class="send" onclick="sendChat()">➤</button></div></div>
+            </div>
+          </div>
+        </section>
+        <section id="view-alerts" class="hidden">
+          <div class="card"><h3>Alerts</h3><div class="alert-list" id="alerts-page" style="margin-top:12px"></div></div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal hidden" id="suggest-modal" onclick="closeSuggestModal()"><div class="modal-card" onclick="event.stopPropagation()"><button class="close" onclick="closeSuggestModal()">×</button><h3 id="modal-title">AI Suggestion</h3><div id="modal-body" style="margin-top:12px;color:var(--txt2)">Loading...</div></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-messaging.js";
+
+//firebase project detail 
+const firebaseConfig = {
+  apiKey: "AIzaSyDjlxGuNdWXoCIwEfnI5wr2zObzFtor4gM",
+  authDomain: "smartfridge-c8495.firebaseapp.com",
+  projectId: "smartfridge-c8495",
+  storageBucket: "smartfridge-c8495.firebasestorage.app",
+  messagingSenderId: "543901143241",
+  appId: "1:543901143241:web:fb5647dd21942e5c007d18",
+  measurementId: "G-1K90E24EME"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const messaging = getMessaging(app);
+
+async function enableNotifications() {
+
+  const permission = await Notification.requestPermission();
+
+  if (permission !== "granted") {
+    alert("Notification permission denied");
+    return;
+  }
+
+  const token = await getToken(messaging, {
+    vapidKey: "BJn3gFMie772_TwI0UIX0gFGzIaRFnRefYexca6I0cUN-7xrzcv7yojaLf_xoo4sP03QdrmPF_jJXbzmvXE4Afk"
+  });
+
+  console.log("FCM TOKEN:", token);
+
+  // optional:
+  // save token into firestore here
+
+}
+
+onMessage(messaging, (payload) => {
+
+  console.log("Foreground notification:", payload);
+
+  alert(
+    payload.notification.title + "\n" +
+    payload.notification.body
+  );
+
+});
+
+window.enableNotifications = enableNotifications;
+
+let foodItems = [];
+
+const emojiMap = {milk:'🥛',cheese:'🧀',egg:'🥚',eggs:'🥚',bread:'🍞',apple:'🍎',vegetable:'🥦',vegetables:'🥦',fruit:'🍎'};
+const getEmoji = name => emojiMap[(name||'').toLowerCase()] || '🍽️';
+const normalizeStatus = item => {
+  const s = String(item.status || '').toLowerCase();
+  const f = Number(item.freshness ?? item.freshnessPercent ?? 0);
+  if (s.includes('spoil') || s.includes('rotten') || s.includes('bad') || f <= 25) return 'Spoiled';
+  if (s.includes('soon') || s.includes('semi') || s.includes('warn') || f <= 55) return 'Consume Soon';
+  return 'Fresh';
+};
+const statusTag = s => s === 'Spoiled' ? 'tag-red' : s === 'Consume Soon' ? 'tag-amber' : 'tag-green';
+const barClass = s => s === 'Spoiled' ? 'low' : s === 'Consume Soon' ? 'mid' : 'high';
+
+function render(items){
+  foodItems = items;
+  const fresh = items.filter(i => normalizeStatus(i)==='Fresh').length;
+  const soon = items.filter(i => normalizeStatus(i)==='Consume Soon').length;
+  const spoiled = items.filter(i => normalizeStatus(i)==='Spoiled').length;
+  stat('stat-fresh', fresh); stat('stat-soon', soon); stat('stat-spoiled', spoiled); stat('stat-total', items.length);
+  stat('hero-items', items.length); stat('table-count', `${items.length} Items`);
+  const tbody = document.getElementById('food-table');
+  if(!items.length){ tbody.innerHTML = `<tr><td colspan="6"><div class="empty">No food items found in Firebase collection <b>foodItems</b>.</div></td></tr>`; }
+  else {
+    tbody.innerHTML = items.map((item, idx) => {
+      const status = normalizeStatus(item); const freshness = Number(item.freshness ?? item.freshnessPercent ?? 0);
+      return `<tr><td>${getEmoji(item.name)} <b>${escapeHtml(item.name || 'Unnamed')}</b></td><td><span class="tag ${statusTag(status)}">${status}</span></td><td><div style="display:flex;gap:8px;align-items:center"><div class="bar"><span class="${barClass(status)}" style="width:${Math.max(0,Math.min(100,freshness))}%"></span></div>${freshness}%</div></td><td>${escapeHtml(item.expiry || item.bestBefore || '—')}</td><td>${escapeHtml(item.smell || item.gasStatus || item.gasLevel || 'Normal')}</td><td><button class="suggest-btn" onclick="suggestForItem(${idx})">AI Suggest</button></td></tr>`;
+    }).join('');
+  }
+  const alerts = buildAlerts(items);
+  stat('hero-alerts', alerts.length);
+  renderAlerts(alerts, 'dash-alerts'); renderAlerts(alerts, 'alerts-page');
+}
+function buildAlerts(items){
+  const alerts=[];
+  items.forEach(item=>{
+    const s=normalizeStatus(item);
+    if(s==='Spoiled') alerts.push({type:'critical',icon:'🚨',title:`${item.name} may be spoiled`,desc:'Remove immediately and avoid consuming.'});
+    if(s==='Consume Soon') alerts.push({type:'warning',icon:'⚠️',title:`Use ${item.name} soon`,desc:'Gemini can suggest a quick recipe or storage tip.'});
+  });
+  return alerts.length ? alerts : [{type:'info',icon:'✅',title:'No critical alerts',desc:'All fetched Firebase items look safe right now.'}];
+}
+function renderAlerts(alerts,id){document.getElementById(id).innerHTML=alerts.map(a=>`<div class="alert ${a.type}"><span>${a.icon}</span><div><b>${escapeHtml(a.title)}</b><div style="font-size:12px;color:var(--txt2)">${escapeHtml(a.desc)}</div></div></div>`).join('')}
+function stat(id,val){const el=document.getElementById(id); if(el) el.textContent=val;}
+function escapeHtml(v){return String(v).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[m]))}
+
+try{
+  const q = query(collection(db, 'foodItems'), orderBy('updatedAt', 'desc'));
+  onSnapshot(q, snap => render(snap.docs.map(d => ({ id:d.id, ...d.data() }))), err => {
+    console.error(err);
+    document.getElementById('food-table').innerHTML = `<tr><td colspan="6"><div class="empty">Firebase error: ${escapeHtml(err.message)}<br>Check config, Firestore rules, and collection name.</div></td></tr>`;
+  });
+}catch(e){console.error(e)}
+
+window.suggestForItem = async function(idx){
+  const item = foodItems[idx];
+  document.getElementById('suggest-modal').classList.remove('hidden');
+  document.getElementById('modal-title').textContent = `Gemini Suggestion for ${item.name}`;
+  document.getElementById('modal-body').innerHTML = 'Generating suggestion...';
+  const text = await askGemini(`Suggest 2 simple recipes or safe ways to use this item before it gets stale or starts smelling foul. Item data: ${JSON.stringify(item)}`);
+  document.getElementById('modal-body').innerHTML = text.replace(/\n/g,'<br>');
+};
+window.sendChat = async function(){
+  const input=document.getElementById('chat-input'); const msg=input.value.trim(); if(!msg) return; input.value='';
+  addMsg(msg,'user'); addMsg('Gemini is thinking...','bot','typing-msg');
+  const text = await askGemini(`${msg}\nCurrent Firebase fridge items: ${JSON.stringify(foodItems.slice(0,20))}`);
+  document.getElementById('typing-msg')?.remove(); addMsg(text,'bot');
+};
+async function askGemini(prompt){
+  try{
+    const res = await fetch('/api/gemini-suggest', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error || 'Gemini request failed');
+    return data.text || 'No suggestion generated.';
+  }catch(e){return `Gemini API not connected yet. Backend error: ${e.message}`;}
+}
+function addMsg(text,role,id='') { const el=document.createElement('div'); el.className=`msg ${role}`; if(id) el.id=id; el.innerHTML=`<div class="bubble">${escapeHtml(text).replace(/\n/g,'<br>')}</div>`; document.getElementById('chat').appendChild(el); document.getElementById('chat').scrollTop=99999; }
+window.closeSuggestModal=()=>document.getElementById('suggest-modal').classList.add('hidden');
+</script>
+<script>
+function showApp(){document.getElementById('landing').style.display='none';document.getElementById('app').style.display='block'}
+function showLanding(){document.getElementById('app').style.display='none';document.getElementById('landing').style.display='block'}
+function showView(v){['dashboard','alerts'].forEach(n=>{document.getElementById('view-'+n).classList.toggle('hidden',n!==v);document.getElementById('nav-'+n)?.classList.toggle('active',n===v)});document.getElementById('view-title').textContent=v==='alerts'?'Alerts':'Dashboard'}
+setInterval(()=>document.getElementById('clock').textContent=new Date().toLocaleTimeString(),1000);
+</script>
+</body>
+</html>
